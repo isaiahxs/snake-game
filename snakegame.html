@@ -7,7 +7,8 @@
     <title>Snake!</title>
 </head>
 <body>
-    <canvas id="gameCanvas" width="500" height="500"></canvas>
+    <div id="score">0</div>
+    <canvas id="snakeboard" width="500" height="500"></canvas>
 
     <style>
         #snakeboard {
@@ -15,6 +16,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+        #score {
+            text-align: center;
+            font-size: 100px;
         }
     </style>
     <script src="snake.js"></script>
