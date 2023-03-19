@@ -1,0 +1,14 @@
+ideas:
+-poisonous pellets that also randomly generate like the food, except they would result in a game over
+
+-different difficulties with different speeds
+
+-extra hard mode: increased speed, increased poisonous pellet production
+
+-high score counting method
+
+-different difficulties are named different types of snakes, with cobra being the most difficult
+    -different difficulty buttons will have different colors for better UI (green is easy, yellow is medium, red is hard)
+
+-timed mode, what's the highest score you can get in one minute
+    -show timer
