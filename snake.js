@@ -17,6 +17,9 @@ const snakeboard = document.getElementById('gameCanvas');
 //return a two dimensional drawing context
 const snakeboard_ctx = gameCanvas.getContext('2d');
 
+//to incorporate the change_direction function, we can use the addEventListener on the document to listen for when a key is pressed; then we can call change_direction with the keydown event
+document.addEventListener('keydown', change_direction);
+
 //start the game
 main();
 
@@ -25,6 +28,11 @@ main();
     //we also need to make sure to call drawSnake every time we call move_Snake, as shown below
         //if we don't, we won't be able to see the intermediate steps that show the snake moving
 function main() {
+    if (has_game_ended()) return true;
+
+    //change_direction is set to false at the beginning of each game loop because we want to allow the player to change direction again after each iteration of the game loop (every 100ms)
+    change_direction = false;
+
     setTimeout(function onTick() {
         clearCanvas();
         move_snake();
@@ -76,4 +84,58 @@ function move_snake() {
     //remove the last element of the snake
     snake.pop();
         //this way, all the other snake parts shift into place
+}
+
+
+function has_game_ended() {
+    for (let i = 4; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
+    }
+    const hitLeft = snake[0].x < 0;
+    const hitRight = snake[0].x > snakeboard.width - 10
+    const hitTop = snake[0].y < 0;
+    const hitBottom = snake[0].y > snakeboard.height - 10
+    return hitLeft || hitRight || hitTop || hitBottom
+}
+
+//changing direction
+function change_direction(event) {
+
+    //in JS, the 'keyCode' property of the event object that is passed to an event listener contains a numeric code that represents the key that was pressed
+        //these codes are standardized and are the same across all modern web browsers
+    const LEFT_KEY = 37;
+    const RIGHT_KEY = 39;
+    const UP_KEY = 38;
+    const DOWN_KEY = 40;
+
+    //prevent snake from reversing
+    if (change_direction) return;
+    change_direction = true;
+
+    //in the HTML canvas coordinate system, the y-axis increases as you move downwards, and decreases as you move upwards
+    const keyPressed = event.keyCode;
+    const goingUp = dy === -10;
+    const goingDown = dy === 10;
+    const goingRight = dx === 10;
+    const goingLeft = dx === -10;
+
+    if (keyPressed === LEFT_KEY && !goingRight) {
+        dx = -10;
+        dy = 0;
+    }
+
+    if (keyPressed === RIGHT_KEY && !goingLeft) {
+        dx = 10;
+        dy = 0;
+    }
+
+    if (keyPressed === UP_KEY && !goingDown) {
+        dx = 0;
+        dy = -10;
+    }
+
+    if (keyPressed === DOWN_KEY && !goingUp) {
+        dx = 0;
+        dy = 10;
+    }
 }
